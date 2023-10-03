@@ -8,16 +8,90 @@
     /* text-align: center; */
 }
 .login_container{
-    font-family: 'Barlow', sans-serif;
+    
     /* height: 100vh; */
-    height: 100%;
-    background: #fff;
-}
-h3{
-    background: rgb(231, 231, 231);
-    text-align: center;
-    padding: 80px 0;
-}
-#root{
     height: 100vh;
+    font-family: 'Nunito', sans-serif; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.login_contain_box{
+    width: 497px;
+}
+.logo_img{
+    width: 48px;
+    height: 45px;
+    margin: 0 auto;
+}
+.logo_img img{
+    width: 100%;
+    height: 100%;
+}
+.title_login_head{
+    margin-top: 40px;
+}
+.title_login_head h2{
+    font-size: 34.4px;
+    font-family:'Nunito', sans-serif;
+    font-weight: 700;
+    line-height: 21.5px;
+    text-align: left;
+    color: #11175D;
+    text-align: center;
+}
+.title_login_head h3{
+    font-size: 20.64px;
+    font-family:'Nunito', sans-serif;
+    font-weight: 400;
+    line-height: 21.5px;
+    text-align: left;
+    color: #888BAE;
+    text-align: center;
+    margin-top: 16px;
+}
+.form_container_login{
+    margin-top: 50px;
+}
+.form_container_login .MuiFormControl-root{
+    width: 100%;
+}
+.form_container_login .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 10px;
+    height: 60px;
+
+}
+.form_container_login .emailform,.form_container_login .fullnameform,.form_container_login .passwordform{
+    margin-bottom: 40px;
+}
+.signinbtn{
+    width: 100%;
+    margin-top: 11px;
+}
+.signinbtn button{
+    width: 100%;
+    border-radius: 89px;
+    border-color: transparent;
+    border: 0;
+    background: #086FA4;
+    text-align: center;
+    padding: 17px 0;
+    cursor: pointer;
+    font-size: 20.64px;
+    color: #fff;
+    font-weight: 600;
+    font-family:'Nunito', sans-serif;
+}
+.signup_account{
+    margin-top: 30px;
+    font-size: 16px;
+}
+.signup_account span{
+    font-weight: 700;
+    color: #11175D;
+    cursor: pointer;
+}
+.signup_account span:hover{
+    color: green;
 }

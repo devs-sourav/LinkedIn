@@ -1,14 +1,44 @@
 import React from 'react'
-import Grid from '@mui/material/Grid';
+import logo from '../assets/Logo zone.png'
+import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+
+
+
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
+  let handleLoginMove = () =>{
+    navigate("/signup");
+  }
+
+
   return (
     <>
-      <Grid className='login_container'  container direction="row" justifyContent="center" alignItems="center">
-        <Grid item xs={4}>
-          <h3>xs=8</h3>
-        </Grid>
-      </Grid>
+      <div className='login_container'  container direction="row" justifyContent="center" alignItems="center">
+        <div className='login_contain_box'>
+          <div className='logo_img'>
+            <img src={logo}/>
+          </div>
+          <div className='title_login_head'>
+            <h2>Login</h2>
+            <h3>Free register and you can enjoy it</h3>
+          </div>
+          <div className='form_container_login'>
+            <TextField id="outlined-basic" label="Email Address" variant="outlined" />
+            <TextField id="outlined-basic" label="Password" variant="outlined" />
+          </div>
+          <div className='signinbtn'>
+            <button>Sign In</button>
+          </div>
+          <div className='signup_account'>
+            <Alert severity="info">Have an account?  <span onClick={handleLoginMove}>Sign Up</span></Alert>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
