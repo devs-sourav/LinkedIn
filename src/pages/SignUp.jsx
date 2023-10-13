@@ -3,13 +3,23 @@ import React, { useState } from 'react'
 import logo from '../assets/Logo zone.png'
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
+import { RxEyeOpen, RxEyeNone } from 'react-icons/rx';
+import { getDatabase, ref, set } from "firebase/database";
+import { toast } from 'react-toastify';
+
+
 
 let loginData = {
   email: "",
   fullname: "",
   password: "",
-  error:""
+  error:"",
+  eye:true,
+  loading:false
 }
 
 
@@ -17,10 +27,23 @@ const SignUp = () => {
 
   const [userInfo,setUserInfo]= useState(loginData)
   const navigate = useNavigate();
+  const auth = getAuth();
+  const db = getDatabase();
 
   
   let handleLoginMove = () =>{
-    navigate("/");
+    navigate("/signin");
+    toast('Welcome to Login Page', {
+      position: "top-right",
+      autoClose: 800,
+      limit:1,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
   }
 
   let handleChange = (e)=>{
@@ -31,7 +54,11 @@ const SignUp = () => {
   }
 
   let handleSubmit = ()=>{
-    let {email,fullname,password ,error}= userInfo
+    let {email,fullname,password }= userInfo
+  // Use regex to remove leading spaces
+    email = email.replace(/^\s+/g, '');
+    fullname = fullname.replace(/^\s+/g, '');
+    password = password.replace(/^\s+/g, '');
 
     if(!email){
       setUserInfo({
@@ -55,15 +82,64 @@ const SignUp = () => {
       return
     }
 
-    if( email && password && fullname  ){
+
+    if( email && password && fullname){
       setUserInfo({
         ...userInfo,
-        email: "",
-        fullname: "",
-        password: "",
-        error:"",
+        loading:true,
+      })
+      createUserWithEmailAndPassword(auth, email, password).then((user) =>{
+          updateProfile(auth.currentUser, {
+            displayName: userInfo.fullname, 
+            photoURL: "https://i.ibb.co/VBsbBpv/avatar.png"
+          }).then(() => {
+            console.log(user)
+              set(ref(db, 'users/'+ user.user.uid), {
+                fullname: userInfo.fullname,
+                email: userInfo.email,
+                profile_picture : user.user.photoURL
+              });
+          }).then(()=>{
+            navigate('/signin')
+            setUserInfo({
+              ...userInfo,
+              email: "",
+              fullname: "",
+              password: "",
+              error:"",
+              loading:false
+            })
+            toast('SignUp Successful ❤️', {
+              position: "top-right",
+              autoClose: 800,
+              limit:1,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
+          })
+        })
+
+
+    }
+  }
+
+  let handleEye = ()=>{
+    if(userInfo.eye){
+      setUserInfo({
+        ...userInfo,
+        eye: false
+      })
+    }else{
+      setUserInfo({
+        ...userInfo,
+        eye: true
       })
     }
+
   }
 
 
@@ -80,21 +156,32 @@ const SignUp = () => {
           </div>
           <div className='form_container_login'>
             <div className='emailform'>
-              
-              <TextField onChange={handleChange} value={userInfo.email} name='email' id="outlined-basic" label="Email Address" variant="outlined" />
+              <TextField onChange={handleChange} type='text' value={userInfo.email} name='email' id="outlined-basic" label="Email Address" variant="outlined" />
               {userInfo.error.includes("Email") && <Alert className='email_alert' severity="error">{userInfo.error}</Alert>} 
             </div>
             <div className='fullnameform'>
-              <TextField onChange={handleChange} value={userInfo.fullname} name='fullname' id="outlined-basic" label="Full Name" variant="outlined" />
+              <TextField onChange={handleChange} type='email' value={userInfo.fullname} name='fullname' id="outlined-basic" label="Full Name" variant="outlined" />
               {userInfo.error.includes("Fullname") && <Alert className='email_alert' severity="error">{userInfo.error}</Alert>} 
             </div>
             <div className='passwordform'>
-              <TextField onChange={handleChange} value={userInfo.password} name='password' id="outlined-basic" label="Password" variant="outlined" />
+              <TextField onChange={handleChange} type={userInfo.eye ? 'password' : 'text'} value={userInfo.password} name='password' id="outlined-basic" label="Password" variant="outlined" />
+              {userInfo.eye ?
+              <span onClick={handleEye} className='eyesign'><RxEyeNone/></span>
+              :
+              <span onClick={handleEye} className='eyesign'><RxEyeOpen/></span>
+              }
               {userInfo.error.includes("Password") && <Alert className='email_alert' severity="error">{userInfo.error}</Alert>} 
             </div>
           </div>
           <div className='signinbtn'>
-            <button onClick={handleSubmit}>Sign In</button>
+            {
+              userInfo.loading ?
+              <LoadingButton endIcon={<SendIcon />} loading={userInfo.loading} loadingPosition="end" variant="contained">
+                <span>Send</span>
+              </LoadingButton>
+              :
+              <button onClick={handleSubmit} >Sign Up</button>
+            }
           </div>
           <div className='signup_account'>
             <Alert  severity="info">Have an account?  <span onClick={handleLoginMove}>Login</span></Alert>
