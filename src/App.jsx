@@ -10,6 +10,10 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import RootLayout from "./components/RootLayout";
+import Friend from "./components/Friend";
+import Info from "./components/Info";
+import Post from "./components/Post";
+import Feed from "./pages/Feed";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +21,12 @@ const router = createBrowserRouter(
         <Route path="/signin" element={<Login/>}></Route>
         <Route path="/signup" element={<SignUp/>}></Route>
         <Route path="/" element={<RootLayout/>}>
-          <Route path="/Home" element={<Home/>}></Route>
+          <Route path="/profile" element={<Home/>}>
+            <Route path="info" element={<Info/>}></Route>
+            <Route path="friend" element={<Friend/>}></Route>
+            <Route path="post" element={<Post/>}></Route>
+          </Route>
+          <Route path="/feed" element={<Feed/>}></Route>
         </Route>
     </>
   )

@@ -4,8 +4,20 @@ import Logo from '../assets/Logo zone.png'
 import navProfile from '../assets/navprofile.png'
 import { HiRss } from 'react-icons/hi';
 import { FiUsers,FiBriefcase, FiMoreHorizontal } from 'react-icons/fi';
+import { useNavigate } from "react-router-dom";
 
 const RootLayout = () => {
+  const navigate = useNavigate();
+
+
+  let handleFeedMove = () =>{
+    navigate("/feed")
+  }
+  let handleProfileMOve = () =>{
+    navigate("/profile/info")
+  }
+
+
   return (
     <>
       <nav className='navbar'>
@@ -16,7 +28,7 @@ const RootLayout = () => {
           <div className='navbar_menu_container'>
             <ul className='Menu_container'>
                 <li>
-                  <div className='item'>
+                  <div className='item' onClick={handleFeedMove}>
                     <span>
                       <HiRss/>
                     </span>
@@ -42,7 +54,7 @@ const RootLayout = () => {
                   </div>
                 </li>
             </ul>
-            <div className='profile_nav'>
+            <div className='profile_nav' onClick={handleProfileMOve}>
               <div className='profile_nav_img'>
                 <img src={navProfile}/>
               </div>
@@ -64,8 +76,7 @@ const RootLayout = () => {
 
       </nav>
       <div className='hsghdfhgsfdgh'>
-
-      <Outlet/>
+        <Outlet/>
       </div>
     </>
 
