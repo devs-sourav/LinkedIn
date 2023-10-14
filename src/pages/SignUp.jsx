@@ -32,7 +32,7 @@ const SignUp = () => {
 
   
   let handleLoginMove = () =>{
-    navigate("/signin");
+    navigate("/");
     toast('Welcome to Login Page', {
       position: "top-right",
       autoClose: 800,
@@ -100,7 +100,7 @@ const SignUp = () => {
                 profile_picture : user.user.photoURL
               });
           }).then(()=>{
-            navigate('/signin')
+            navigate('/')
             setUserInfo({
               ...userInfo,
               email: "",
