@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import { FiLogOut } from 'react-icons/fi';
 
 let menus = {
-  feedBtn:null,
+  feedBtn:true,
   networkBtn:null,
   jobBtn:null,
 }
