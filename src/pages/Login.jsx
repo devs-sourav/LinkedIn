@@ -88,7 +88,7 @@ const Login = () => {
         // console.log(user.user)
         localStorage.setItem("user",JSON.stringify(user.user))
         dispatch(userData(user.user))
-        navigate('/')
+        navigate('/social/feed')
         setUserInfo({
           ...userInfo,
           email: "",

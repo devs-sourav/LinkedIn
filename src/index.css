@@ -10,9 +10,9 @@
 ul,li{
     list-style: none;
 }
-body{
+/* body{
     background: #E5E5E5;
-}
+} */
 .login_container{
     
     /* height: 100vh; */
@@ -118,7 +118,17 @@ body{
 	right: 205px;
 }
 
-
+.logout_btn {
+	padding: 12px 26px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #181818;
+    font-family: 'Barlow', sans-serif;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
 /* ===============================================================================
                         Navbar Start Here
 =============================================================================== */
@@ -272,16 +282,7 @@ body{
 /* ===============================================================================
                         Profile Start Here
 =============================================================================== */
-.profile_cont{
-    /* padding-left: 40px; */
-}
-.paddingBG{
-    padding: 40px 0 0 0;
-    background: #FFF9F9;
-}
-.profile_left_container{
-    background: #FFF9F9;
-}
+
 .container{
     width: 1180px;
     margin: 0 auto;
@@ -296,7 +297,6 @@ body{
 }
 .profile_main_cont .profile_right_container {
     width: 290px;
-    background: #FFF9F9;
 }
 
 .cover_image{
@@ -404,10 +404,15 @@ body{
     text-transform: uppercase;
     color: #fff;
 }
+.profile_main_item{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 10px -3px, rgba(0, 0, 0, 0.04) 0px 10px 10px -3px;
+    margin-bottom: 30px;
+}
 .profile_main_item .erere{
     padding: 15px 0;
     width: 100%;
-    background: #FFF9F9;
+
+    
 }
 .profile_nav_menu{
     width: 720px;
@@ -415,6 +420,7 @@ body{
     display: flex;
     border-top: 1px solid #F4F4F4;
     background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 10px -3px, rgba(0, 0, 0, 0.04) 0px 10px 10px -3px;
     
 }
 .profile_nav_menu .profile_nav_item{
@@ -458,7 +464,6 @@ body{
     border-radius: 0 0 0 4px;
 }
 .menu_prof{
-    background: #FFF9F9;
     width: 850px;
     border-bottom: 1px solid #F4F4F4;
 }
@@ -474,6 +479,7 @@ body{
 .about_container{
     padding: 30px;
     background: #fff;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 .about{
     margin-top: 30px;
@@ -516,6 +522,7 @@ body{
     background: #fff;
     margin-top: 22px;
     margin-bottom: 35px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 .about_head span{
     font-family: 'Barlow', sans-serif;
@@ -551,6 +558,7 @@ body{
     padding: 30px;
     background: #fff;
     margin-bottom: 30px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 .experience11{
     margin-bottom: 0 !important;
@@ -619,9 +627,11 @@ body{
 /* ===============================================================================
                         Friends Start Here
 =============================================================================== */
-.friends{
-    padding: 25px 29px 31px 30px ;
-    background: #fff;
+.friends {
+	padding: 30px 23px 38px 23px;
+	background: #fff;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 10px 10px -3px, rgba(0, 0, 0, 0.04) 0px 10px 10px -3px;
+    width: 100%;
 }
 .friend_head{
     display: flex;

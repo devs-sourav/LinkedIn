@@ -18,15 +18,15 @@ import Feed from "./pages/Feed";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route path="/signin" element={<Login/>}></Route>
+        <Route path="/" element={<Login/>}></Route>
         <Route path="/signup" element={<SignUp/>}></Route>
-        <Route path="/" element={<RootLayout/>}>
-          <Route path="/profile" element={<Home/>}>
+        <Route path="/social" element={<RootLayout/>}>
+          <Route path="profile" element={<Home/>}>
             <Route path="info" element={<Info/>}></Route>
             <Route path="friend" element={<Friend/>}></Route>
             <Route path="post" element={<Post/>}></Route>
           </Route>
-          <Route path="/feed" element={<Feed/>}></Route>
+          <Route path="feed" element={<Feed/>}></Route>
         </Route>
     </>
   )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import coverpic from '../assets/cover.png'
 import { useNavigate } from "react-router-dom";
 import friend1 from '../assets/friend1.png'
@@ -6,19 +6,35 @@ import userPic from '../assets/Ellipse.png'
 import { FiEdit, FiNavigation } from 'react-icons/fi';
 import { Outlet } from 'react-router-dom'
 
+
 const Home = () => {
 
   const navigate = useNavigate();
 
+  const [profilebtn,setProfileBtn] = useState(true)
+  const [friendBtn,setFriendBtn] = useState(false)
+  const [postBtn,setPostBtn] = useState(false)
+
   let handleProfileMove = () =>{
-    navigate("/profile/info")
+    navigate("/social/profile/info")
+    setProfileBtn(true)
+    setFriendBtn(false)
+    setPostBtn(false)
   }
   let handleFriendMove = () =>{
-    navigate("/profile/friend")
+    navigate("/social/profile/friend")
+    setProfileBtn(false)
+    setFriendBtn(true)
+    setPostBtn(false)
   }
   let handlePostMove = () =>{
-    navigate("/profile/post")
+    navigate("/social/profile/post")
+    setProfileBtn(false)
+    setFriendBtn(false)
+    setPostBtn(true)
+    
   }
+
 
 
 
@@ -61,15 +77,36 @@ const Home = () => {
               <div className='profile_nav_container'>
                   <div className='menu_prof'>
                     <div className='profile_nav_menu'>
-                      <div className='profile_nav_item active' onClick={handleProfileMove}>
-                        <h3>Profile</h3>
-                      </div>
-                      <div className='profile_nav_item' onClick={handleFriendMove}>
-                        <h3>Friends</h3>
-                      </div>
-                      <div className='profile_nav_item last_item '  onClick={handlePostMove}>
-                        <h3>Post</h3>
-                      </div>
+                      {
+                        profilebtn ? 
+                        <div className='profile_nav_item active' onClick={handleProfileMove}>
+                          <h3>Profile</h3>
+                        </div>
+                        :
+                        <div className='profile_nav_item' onClick={handleProfileMove}>
+                          <h3>Profile</h3>
+                        </div>
+                      }
+                      {
+                        friendBtn ? 
+                        <div className='profile_nav_item active' onClick={handleFriendMove}>
+                          <h3>Friends</h3>
+                        </div>
+                        :
+                        <div className='profile_nav_item' onClick={handleFriendMove}>
+                          <h3>Friends</h3>
+                        </div>
+                      }
+                      {
+                        postBtn ? 
+                        <div className='profile_nav_item active' onClick={handlePostMove}>
+                          <h3>Post</h3>
+                        </div>
+                        :
+                        <div className='profile_nav_item' onClick={handlePostMove}>
+                          <h3>Post</h3>
+                        </div>
+                      }
                     </div>
 
                 </div>
