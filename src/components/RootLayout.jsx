@@ -4,16 +4,24 @@ import Logo from '../assets/Logo zone.png'
 import navProfile from '../assets/navprofile.png'
 import { HiRss } from 'react-icons/hi';
 import { FiUsers,FiBriefcase, FiMoreHorizontal } from 'react-icons/fi';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { FiLogOut } from 'react-icons/fi';
 
+let menus = {
+  feedBtn:null,
+  networkBtn:null,
+  jobBtn:null,
+}
+let flag=1
+
 const RootLayout = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [feedBtn,setFeedBtn] = useState(true)
+  const [btnList,setBtnList] = useState(menus)
+  const location = useLocation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,18 +34,69 @@ const RootLayout = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  
+
+
+  if(location.pathname == '/social/feed' && flag ==1 ){
+    setBtnList({
+      feedBtn:true,
+      networkBtn:false,
+      jobBtn:false
+    })
+    flag++
+  }
+  if(location.pathname == '/social/network' && flag==1 ){
+    setBtnList({
+      feedBtn:false,
+      networkBtn:true,
+      jobBtn:false
+    })
+    flag++
+  }
+  if(location.pathname == '/social/job' && flag==1 ){
+    setBtnList({
+      feedBtn:false,
+      networkBtn:false,
+      jobBtn:true
+    })
+    flag++
+  }
 
   let handleFeedMove = () =>{
     navigate("/social/feed")
+    setBtnList({
+      feedBtn:true,
+      networkBtn:false,
+      jobBtn:false
+    })
+  }
+
+  let handleNetworkMove = () =>{
+    navigate("/social/network")
+    setBtnList({
+      feedBtn:false,
+      networkBtn:true,
+      jobBtn:false
+    })
+  }
+  let handlePostMove = () =>{
+    navigate("/social/job")
+    setBtnList({
+      feedBtn:false,
+      networkBtn:false,
+      jobBtn:true
+    })
   }
   let handleProfileMOve = () =>{
     navigate("/social/profile/info")
+    setBtnList({
+      feedBtn:false,
+      networkBtn:false,
+      jobBtn:false
+    })
   }
   let handleLogOut = () =>{
     navigate("/")
-  }
-  let handleFeedBtn = () =>{
-    setFeedBtn(true)
   }
 
 
@@ -50,27 +109,29 @@ const RootLayout = () => {
           </div>
           <div className='navbar_menu_container'>
             <ul className='Menu_container'>
-                <li onClick={handleFeedMove}>
-                  {
-                    feedBtn ?
-                    <div className='item' onClick={handleFeedBtn}>
-                      <span>
-                        <HiRss/>
-                      </span>
-                      <h3>Feed</h3>
-                    </div>
-                    :
-                    <div className='item' onClick={handleFeedBtn}>
-                      <span>
-                        <HiRss/>
-                      </span>
-                      <h3>Feed</h3>
-                    </div>
-                  }
-
+              {
+                btnList.feedBtn ?
+                <li className='active' onClick={handleFeedMove}>
+                  <div className='item'>
+                    <span>
+                      <HiRss/>
+                    </span>
+                    <h3>Feed</h3>
+                  </div>
                 </li>
-
-                <li>
+                :
+                <li onClick={handleFeedMove}>
+                  <div className='item'>
+                    <span>
+                      <HiRss/>
+                    </span>
+                    <h3>Feed</h3>
+                  </div>
+                </li>
+              }
+              {
+                btnList.networkBtn ?
+                <li className='active' onClick={handleNetworkMove}>
                   <div className='item'>
                     <span>
                       <FiUsers/>
@@ -78,8 +139,19 @@ const RootLayout = () => {
                     <h3>Network</h3>
                   </div>
                 </li>
-
-                <li>
+                :
+                <li onClick={handleNetworkMove}>
+                  <div className='item'>
+                    <span>
+                      <FiUsers/>
+                    </span>
+                    <h3>Network</h3>
+                  </div>
+                </li>
+              }
+              {
+                btnList.jobBtn ?
+                <li className='active' onClick={handlePostMove}>
                   <div className='item'>
                     <span>
                       <FiBriefcase/>
@@ -87,6 +159,16 @@ const RootLayout = () => {
                     <h3>Jobs</h3>
                   </div>
                 </li>
+                :
+                <li onClick={handlePostMove}>
+                  <div className='item'>
+                    <span>
+                      <FiBriefcase/>
+                    </span>
+                    <h3>Jobs</h3>
+                  </div>
+                </li>
+              }
             </ul>
             <div className='profile_nav' onClick={handleProfileMOve}>
               <div className='profile_nav_img'>

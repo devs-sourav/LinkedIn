@@ -14,6 +14,8 @@ import Friend from "./components/Friend";
 import Info from "./components/Info";
 import Post from "./components/Post";
 import Feed from "./pages/Feed";
+import Network from "./pages/Network";
+import Job from "./pages/Job";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +29,8 @@ const router = createBrowserRouter(
             <Route path="post" element={<Post/>}></Route>
           </Route>
           <Route path="feed" element={<Feed/>}></Route>
+          <Route path="network" element={<Network/>}></Route>
+          <Route path="job" element={<Job/>}></Route>
         </Route>
     </>
   )

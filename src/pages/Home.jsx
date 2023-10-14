@@ -1,19 +1,42 @@
 import React, { useState } from 'react'
 import coverpic from '../assets/cover.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Outlet, useLocation } from "react-router-dom";
 import friend1 from '../assets/friend1.png'
 import userPic from '../assets/Ellipse.png'
 import { FiEdit, FiNavigation } from 'react-icons/fi';
-import { Outlet } from 'react-router-dom'
 
+let flag=1
 
 const Home = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [profilebtn,setProfileBtn] = useState(true)
-  const [friendBtn,setFriendBtn] = useState(false)
-  const [postBtn,setPostBtn] = useState(false)
+  const [profilebtn,setProfileBtn] = useState(null)
+  const [friendBtn,setFriendBtn] = useState(null)
+  const [postBtn,setPostBtn] = useState(null)
+
+  if(location.pathname == '/social/profile/info' && flag ==1 ){
+    setProfileBtn(true)
+    setFriendBtn(false)
+    setPostBtn(false)
+    flag++
+  }
+
+  if(location.pathname == '/social/profile/friend' && flag ==1 ){
+    setProfileBtn(false)
+    setFriendBtn(true)
+    setPostBtn(false)
+    flag++
+  }
+
+  if(location.pathname == '/social/profile/post' && flag ==1 ){
+    setProfileBtn(false)
+    setFriendBtn(false)
+    setPostBtn(true)
+    flag++
+  }
+
 
   let handleProfileMove = () =>{
     navigate("/social/profile/info")
