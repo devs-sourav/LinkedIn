@@ -1,6 +1,7 @@
 /* font-family: 'Barlow', sans-serif; */
 /* font-family: 'Nunito', sans-serif; */
 
+
 *{
     padding: 0;
     margin: 0;
@@ -326,7 +327,7 @@ ul,li{
 }
 
 .cover_image{
-    height: 200px;
+    height: 220px;
     width: 100%;
     position: relative;
     /* padding: 20px 57px 30px 25px; */
@@ -334,6 +335,7 @@ ul,li{
 .cover_image img{
     height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 .edit_profile{
     padding: 9px;
@@ -420,6 +422,12 @@ ul,li{
     font-weight: 400;
     line-height: 150%;
     color: #181818;
+    position: relative;
+}
+.profile_details .bio_edits{
+    position: absolute;
+    right: -20px;
+    top: 3px;
 }
 .profile_details .contact_btn{
     padding: 9px 45px;
@@ -516,6 +524,12 @@ ul,li{
 .about {
 	margin-top: 40px;
 }
+.css-1wnsr1i{
+    border: none !important;
+}
+.css-1wnsr1i:focus{
+    outline: none;
+}
 .about_head{
     font-family: 'Barlow', sans-serif;
     font-size: 18px;
@@ -523,6 +537,7 @@ ul,li{
     font-weight: 700;
     color: #181818;
     margin-bottom: 10px;
+    position: relative;
 }
 .about_container h4{
     font-family: 'Barlow', sans-serif;
@@ -540,6 +555,7 @@ ul,li{
     color: #181818;
     line-height: 150%;
     margin-bottom: 20px;
+    word-wrap: break-word;
 }
 /* ===============================================================================
                         About End Here
@@ -622,6 +638,8 @@ ul,li{
     font-weight: 500;
     color: #181818;
     line-height: 150%;
+    position: relative;
+    display: inline-block;
 }
 .ex_info_inner_1{
     display: flex;
@@ -932,11 +950,66 @@ ul,li{
 
 
 
+.visible_text .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    width: 100%;
+    margin-top: 20px;
+}
+.ererrrtrt{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
 
-
-
-
-
+.imgeIcon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #747474;
+}
+.visible_text1 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    width: 48%;
+  margin-top: 30px;
+}
+.visible_text1{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.css-z3c6am-MuiFormControl-root-MuiTextField-root{
+    width: 100%;
+    margin-top: 10px 0 0 0;
+}
+.sdsdsdsdsd{
+    margin-top: 10px;
+    width: 48%;
+}
+.sdsdsdsdsd h4{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.css-b8tju9{
+    border: 2px solid transparent;
+}
+.present_switch{
+    width: 48%;
+    margin-top: 40px;
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+}
+.exofjdfkjdjf{
+    width: 100%;
+}
+.exofjdfkjdjf .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    width: 100%;
+}
+.delete_icon{
+    position: absolute;
+    right: -40px;
+    top: 3px;
+    color: red;
+    cursor: pointer;
+}
 
 
 

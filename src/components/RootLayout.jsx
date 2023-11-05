@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Logo from '../assets/Logo zone.png'
-import navProfile from '../assets/navprofile.png'
+import navProfile from '../assets/profile.jpg'
 import { HiRss } from 'react-icons/hi';
 import { FiUsers,FiBriefcase, FiMoreHorizontal } from 'react-icons/fi';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -105,7 +105,7 @@ const RootLayout = () => {
       <nav className='navbar'>
         <div className='navbar_container'>
           <div className='nav_image'>
-              <img src={Logo}/>
+              <img onClick={handleFeedMove} src={Logo}/>
           </div>
           <div className='navbar_menu_container'>
             <ul className='Menu_container'>

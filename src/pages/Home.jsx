@@ -1,20 +1,77 @@
-import React, { useState } from 'react'
-import coverpic from '../assets/cover.png'
+import React, { useState,useEffect } from 'react'
+import coverpic from '../assets/cover.jpg'
 import { useNavigate,Outlet, useLocation } from "react-router-dom";
+import { getDatabase, ref, set,push,onValue,remove } from "firebase/database";
 import friend1 from '../assets/friend1.png'
-import userPic from '../assets/Ellipse.png'
+import userPic from '../assets/profile.jpg'
 import { FiEdit, FiNavigation } from 'react-icons/fi';
+import { useSelector } from 'react-redux'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 let flag=1
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 const Home = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [profilebtn,setProfileBtn] = useState(null)
+  const userData = useSelector((state) => state.loggedUser.loginUser)
+  const [profilebtn,setProfileBtn] = useState(true)
   const [friendBtn,setFriendBtn] = useState(null)
   const [postBtn,setPostBtn] = useState(null)
+  const [bioText,setBioText] = useState('')
+  const [biolist,setBioList] = useState('')
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [open, setOpen] = React.useState(false);
+  const db = getDatabase();
+
+
+  useEffect(()=>{
+    const bioref = ref(db, 'bio/');
+    onValue(bioref, (snapshot) => {
+      // const data = snapshot.val();
+      let arr =[]
+      snapshot.forEach((item)=>{
+        if(userData.uid == item.key){
+          arr.push({...item.val(),id:item.key})
+        }
+      })
+      setBioList(arr)
+    })
+  },[])
+
+
+  let handleChange = (e)=>{
+    setBioText(e.target.value)
+  }
+
+  let handleBioSave = ()=>{
+    set(ref(db, 'bio/'+ userData.uid), {
+      bioInfo: bioText
+    }).then(()=>{
+      setOpen(false)
+    })
+  }
+
+  
+
 
   if(location.pathname == '/social/profile/info' && flag ==1 ){
     setProfileBtn(true)
@@ -58,11 +115,36 @@ const Home = () => {
     
   }
 
+  // console.log(userData)
+
+  let handleEditBio = ()=>{
+    
+  }
+
 
 
 
   return (
     <>
+
+  <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+      >
+    <Box sx={style}>
+      <Typography id="modal-modal-title" variant="h6" component="h2">
+        Edit Bio
+      </Typography>
+      <div className='visible_text'>
+        <TextField id="outlined-basic" name='bio' onChange={handleChange} label="Bio" variant="outlined" />
+      </div>
+      <div className='ererrrtrt'>
+        <Button onClick={handleBioSave} variant="contained">Save</Button>
+      </div>
+    </Box>
+  </Modal>
       
       <section className='profile_cont'>
         <div className='container'>
@@ -86,10 +168,20 @@ const Home = () => {
                     </div>
                     <div className='profile_details'>
                       <div className='prof_heading'>
-                        <h2>Dmitry Kargaev</h2>
+                        <h2>{userData.displayName}</h2>
                         <h3><span><FiNavigation/></span> Saint Petersburg, Russian Federation</h3>
                       </div>
-                      <p>Freelance UX/UI designer, 80+ projects in web design, mobile apps  (iOS & android) and creative projects. Open to offers.</p>
+                      {
+                        biolist.length != 0
+                        ? 
+                          biolist.map((item)=>(
+                            <p>{item.bioInfo}<span className='bio_edits' onClick={handleOpen}><FiEdit/></span></p>
+                          ))
+                        :
+                        <p>Freelance UX/UI designer, 80+ projects in web design, mobile apps  (iOS & android) and creative projects. Open to offers.<span className='bio_edits' onClick={handleOpen}><FiEdit/></span></p>
+                      }
+
+                      
                       <button className='contact_btn'>Contact info</button>
                     </div>
                   </div>
