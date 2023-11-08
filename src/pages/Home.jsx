@@ -4,7 +4,7 @@ import { useNavigate,Outlet, useLocation } from "react-router-dom";
 import { getDatabase, ref, set,push,onValue,remove } from "firebase/database";
 import friend1 from '../assets/friend1.png'
 import userPic from '../assets/profile.jpg'
-import { FiEdit, FiNavigation } from 'react-icons/fi';
+import { FiEdit, FiNavigation,FiUserPlus } from 'react-icons/fi';
 import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -37,6 +37,7 @@ const Home = () => {
   const [postBtn,setPostBtn] = useState(null)
   const [bioText,setBioText] = useState('')
   const [biolist,setBioList] = useState('')
+  const [friendList,setFriendList] = useState([])
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [open, setOpen] = React.useState(false);
@@ -57,6 +58,19 @@ const Home = () => {
     })
   },[])
 
+  useEffect(()=>{
+    const friendsref = ref(db, 'users/');
+    onValue(friendsref, (snapshot) => {
+      // const data = snapshot.val();
+      let arr =[]
+      snapshot.forEach((item)=>{
+        if(userData.uid != item.key){
+          arr.push({...item.val(),id:item.key})
+        }
+      })
+      setFriendList(arr)
+    })
+  },[])
 
   let handleChange = (e)=>{
     setBioText(e.target.value)
@@ -233,46 +247,25 @@ const Home = () => {
               <div className='paddingBG'></div>
               <section className='friends'>
                 <div className='friend_head'>
-                  <h3>10 Friends</h3>
+                  <h3><span className='friends_length'>{friendList.length}</span>Friends</h3>
                   <h3>view all</h3>
                 </div>
                 <div className='friendd_list'>
-                  <div className='friend_item'>
-                    <div className='friend_img'>
-                      <img src={friend1}/>
-                    </div>
-                    <div className='friend_name'>
-                      <h3>Darlene Black</h3>
-                      <p>HR-manager, 10 000 connec...</p>
-                    </div>
-                  </div>
-                  <div className='friend_item'>
-                    <div className='friend_img'>
-                      <img src={friend1}/>
-                    </div>
-                    <div className='friend_name'>
-                      <h3>Darlene Black</h3>
-                      <p>HR-manager, 10 000 connec...</p>
-                    </div>
-                  </div>
-                  <div className='friend_item'>
-                    <div className='friend_img'>
-                      <img src={friend1}/>
-                    </div>
-                    <div className='friend_name'>
-                      <h3>Darlene Black</h3>
-                      <p>HR-manager, 10 000 connec...</p>
-                    </div>
-                  </div>
-                  <div className='friend_item'>
-                    <div className='friend_img'>
-                      <img src={friend1}/>
-                    </div>
-                    <div className='friend_name'>
-                      <h3>Darlene Black</h3>
-                      <p>HR-manager, 10 000 connec...</p>
-                    </div>
-                  </div>
+                  {
+                    friendList.map(item=>(
+                      <div className='friend_item'>
+                        <div className='friend_img'>
+                          <img src={item.profile_picture}/>
+                        </div>
+                        <div className='friend_name'>
+                          <h3>{item.fullname} <span className='add_friend'><FiUserPlus/></span></h3>
+                          <p>{item.email}</p>
+                        </div>
+                      </div>
+                    ))
+                  }
+
+
                 </div>
 
               </section>

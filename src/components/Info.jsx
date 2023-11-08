@@ -72,15 +72,23 @@ let exp = {
   exptext:""
 }
 
+let edu = {
+  institutename: "",
+  program:"",
+  cgpa:"",
+}
+
 const Info = () => {
   const userData = useSelector((state) => state.loggedUser.loginUser)
   const db = getDatabase();
   const [isReadMore, setIsReadMore] = useState(false); 
   const [para, setPara] = useState(paragraph); 
+  const [eduObj, setEduObj] = useState(edu); 
   const [expInfo, setExpInfo] = useState(exp); 
   const [flag1, setFlag1] = useState(true); 
   const [about, setAbout] = useState([]); 
   const [experience, setExperience] = useState([]); 
+  const [educationList, setEducationList] = useState([]); 
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -112,17 +120,23 @@ const Info = () => {
       setFlag1(true)
     }else{
       setFlag1(false)
-      
     }
   };
 
 
-
+  let handleChangeEdu = (e)=>{
+    setEduObj({
+      ...eduObj,
+      [e.target.name] : e.target.value
+    })
+  }
 
 
   const toggleReadMore = () => { 
     setIsReadMore(!isReadMore); 
   }; 
+
+
 
   useEffect(()=>{
     const aboutref = ref(db, 'about/');
@@ -149,6 +163,20 @@ const Info = () => {
         }
       })
       setExperience(arr)
+    })
+  },[])
+
+  useEffect(()=>{
+    const educationref = ref(db, 'education/');
+    onValue(educationref, (snapshot) => {
+      // const data = snapshot.val();
+      let arr =[]
+      snapshot.forEach((item)=>{
+        if(userData.uid == item.val().userId){
+          arr.push({...item.val(),id:item.key})
+        }
+      })
+      setEducationList(arr)
     })
   },[])
 
@@ -221,18 +249,56 @@ const Info = () => {
         present:false
   
       }).then(()=>{
-        setOpen2(false)
+        setOpen3(false)
         setChecked(false)
       })
     }
 
-
-
   }
+
   let handleDeleteExperience = (item)=>{
     remove(ref(db, 'experience/' + item.id))
     // console.log(item)
   }
+  let handleDeleteEdu = (item)=>{
+    remove(ref(db, 'education/' + item.id))
+    // console.log(item)
+  }
+
+
+  let handleSaveEdu = ()=>{
+
+    if(checked){
+      set(push(ref(db,'education/')), {
+        institutename:eduObj.institutename,
+        program:eduObj.program,
+        address:eduObj.address,
+        cgpa:eduObj.cgpa,
+        userId: userData.uid,
+        present:true,
+        startDate:startDate,
+      }).then(()=>{
+        setOpen3(false)
+        setChecked(false)
+      })
+    }else{
+      set(push(ref(db, 'education/')), {
+        institutename:eduObj.institutename,
+        program:eduObj.program,
+        address:eduObj.address,
+        cgpa:eduObj.cgpa,
+        userId: userData.uid,
+        present:false,
+        startDate:startDate,
+        endDate:endDate,
+      }).then(()=>{
+        setOpen3(false)
+        setChecked(false)
+      })
+    }
+
+  }
+
   return (
     <>
 
@@ -332,13 +398,13 @@ const Info = () => {
               >
                 <Box sx={style3} className="style_boxing">
                   <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Edit Experience
+                    Edit Education
                   </Typography>
                   <div className='visible_text1 visible_text'>
-                    <TextField id="outlined-basic" name='skillName' onChange={handleChangeExp} label="Insititute Name" variant="outlined" />
-                    <TextField id="outlined-basic" name='designation' onChange={handleChangeExp} label="Program" variant="outlined" />
-                    <TextField id="outlined-basic" name='location' onChange={handleChangeExp} label="Address" variant="outlined" />
-                    <TextField id="outlined-basic" name='location' onChange={handleChangeExp} label="CGPA" variant="outlined" />
+                    <TextField id="outlined-basic" name='institutename' onChange={handleChangeEdu} label="Insititute Name" variant="outlined" />
+                    <TextField id="outlined-basic" name='program' onChange={handleChangeEdu} label="Program" variant="outlined" />
+                    <TextField id="outlined-basic" name='address' onChange={handleChangeEdu} label="Address" variant="outlined" />
+                    <TextField id="outlined-basic" name='cgpa' type='number' onChange={handleChangeEdu} label="CGPA" variant="outlined" />
                     
                     <div className='sdsdsdsdsd'>
                       <h4>Starting Date</h4>
@@ -365,7 +431,7 @@ const Info = () => {
                     }
                   </div>
                   <div className='ererrrtrt'>
-                    <Button onClick={handleSaveExp}  variant="contained">Save</Button>
+                    <Button onClick={handleSaveEdu}  variant="contained">Save</Button>
                   </div>
                 </Box>
               </Modal>
@@ -416,7 +482,7 @@ const Info = () => {
                             <h3 className='fddfdf'>{item.location}</h3>
                           </div>
                           <div className='ex_info_inner_1'>
-                            <h3 className='fddfdf'>Jun 2016 — {item.present ? 'Present': item.endDate}</h3>
+                            <h3 className='fddfdf'>{item.startDate} — {item.present ? 'Present': item.endDate}</h3>
                             <h3 className='fddfdddf'>3 yrs 3 mos</h3>
                           </div>
                           <p>{item.exptext}</p>
@@ -464,21 +530,26 @@ const Info = () => {
               <div className='experience experience11'>
                 <h3 className='about_head'>Education <FiEdit onClick={handleOpen3} className="imgeIcon"/></h3>
                 <div className='experience_menu'>
-                  <div className='experience_item'>
-                    <div className='exp_img'>
-                      <img src={edu1}/>
-                    </div>
-                    <div className='exp_info'>
-                      <h3>Moscow State Linguistic University</h3>
-                      <div className='ex_info_inner_1'>
-                        <h3>Bachelor's degree Field Of StudyComputer and Information Systems Security/Information Assurance</h3>
+                  {
+                    educationList.map(item=>(
+                      <div className='experience_item'>
+                        <div className='exp_img'>
+                          <img src={edu1}/>
+                        </div>
+                        <div className='exp_info'>
+                          <h3>{item.institutename} <FiTrash2 onClick={()=>handleDeleteEdu(item)} className='delete_icon'/></h3>
+                          <div className='ex_info_inner_1'>
+                            <h3>{item.program}</h3>
+                          </div>
+                          <div className='ex_info_inner_1'>
+                            <h3 className='fddfdf'>{item.startDate} — {item.present ? 'Present': item.endDate}</h3>
+                          </div>
+                          <p>{item.address}</p>
+                        </div>
                       </div>
-                      <div className='ex_info_inner_1'>
-                        <h3 className='fddfdf'>2013 — 2017</h3>
-                      </div>
-                      <p>Additional English classes and UX profile courses​.</p>
-                    </div>
-                  </div>
+                    ))
+                  }
+
                 </div>
               </div>
     </>

@@ -703,15 +703,25 @@ ul,li{
 .friend_img{
     width: 52px;
 }
+.add_friend{
+    color: #0077B5;
+    font-size: 18px;
+}
 .friend_img img{
     width: 100%;
     object-fit: cover;
+    border-radius: 50%;
 }
 .friend_item{
     display: flex;
     align-items: center;
     column-gap: 10px;
     margin-bottom: 15px;
+    width: 245px;
+}
+.jhjhj{
+    margin-top: 40px;
+    margin-bottom: 80px;
 }
 .friend_item:last-child{
     margin-bottom: 0;
@@ -722,6 +732,12 @@ ul,li{
     font-weight: 700;
     color: #181818;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.friend_name{
+    width: 100%;
 }
 .friend_name p{
     font-family: 'Barlow', sans-serif;
@@ -897,6 +913,7 @@ ul,li{
 .prof_box_status .prof_box12 img{
     height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 .prof_box21{
     padding: 66px 20px 30px 20px;
@@ -948,7 +965,9 @@ ul,li{
                         Feed End Here
 =============================================================================== */
 
-
+.friends_length{
+    margin-right: 5px;
+}
 
 .visible_text .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
     width: 100%;

@@ -1,20 +1,38 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import { FiImage,FiSend,FiMoreHorizontal } from 'react-icons/fi';
 import UserPic from '../assets/user1.png'
 import status1 from '../assets/status1.png'
-import cover from '../assets/cover.png'
-import profilepic from '../assets/Ellipse.png'
+import cover from '../assets/cover.jpg'
+import profilepic from '../assets/profile.jpg'
+import { useSelector } from 'react-redux'
+import { userData } from '../slices/user/userSlice';
 import { useNavigate} from "react-router-dom";
+import { getDatabase, ref, set,push,onValue,remove } from "firebase/database";
+
 
 const Feed = () => {
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.loggedUser.loginUser)
+  const [biolist,setBioList] = useState('')
+  const db = getDatabase();
 
   let handleMoveProfile = () =>{
-
     navigate("/social/profile/info")
-
   }
 
+  useEffect(()=>{
+    const bioref = ref(db, 'bio/');
+    onValue(bioref, (snapshot) => {
+      // const data = snapshot.val();
+      let arr =[]
+      snapshot.forEach((item)=>{
+        if(userData.uid == item.key){
+          arr.push({...item.val(),id:item.key})
+        }
+      })
+      setBioList(arr)
+    })
+  },[])
 
 
   return (
@@ -103,8 +121,16 @@ const Feed = () => {
                 </div>
               </div>
               <div className='prof_box21'>
-                <h3>Dmitry Kargaev</h3>
-                <p>Freelance UX/UI designer, 80+ projects  in web design, mobile apps (iOS & android) and creative projects. Open to offers.</p>
+                <h3>{userData.displayName}</h3>
+                {
+                    biolist.length != 0
+                      ? 
+                        biolist.map((item)=>(
+                          <p>{item.bioInfo}</p>
+                        ))
+                      :
+                      <p>Freelance UX/UI designer, 80+ projects in web design, mobile apps  (iOS & android) and creative projects. Open to offers.</p>
+                }
               </div>
             </div>
           </div>
